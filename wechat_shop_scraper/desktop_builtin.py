@@ -227,7 +227,21 @@ class ResilientShopOpener:
         # fallback card is checked only immediately before it is clicked.
         checker = getattr(self.primary, 'check_entry', None)
         if callable(checker):
-            return checker(**kwargs)
+            try:
+                return checker(**kwargs)
+            except ShopBootstrapEntryUnavailable:
+                raise
+            except ShopBootstrapError as primary_error:
+                # New WeChat builds may be safely matched for collection while
+                # their native built-in launcher constructor has not yet been
+                # verified.  Let the designated card opener prove its own
+                # entry instead of rejecting the version before fallback.
+                fallback_checker = getattr(self.fallback, 'check_entry', None)
+                if not callable(fallback_checker):
+                    raise primary_error
+                log = kwargs.get('log') or (lambda _message: None)
+                log(f'内置小店入口暂未适配，正在检查固定店铺卡片恢复入口：{primary_error}')
+                return fallback_checker(**kwargs)
 
     def enter_search_keyword(self, **kwargs):
         enter = getattr(self.primary, 'enter_search_keyword', None)

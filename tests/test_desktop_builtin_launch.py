@@ -108,6 +108,15 @@ class BuiltinLaunchTests(unittest.TestCase):
             opener(**dict(self.kw, log=logs.append))
         self.assertTrue(any('不再等待文件传输助手' in item for item in logs))
 
+    def test_unsupported_native_entry_checks_designated_card_fallback(self):
+        primary = mock.Mock()
+        primary.check_entry.side_effect = ShopBootstrapError('版本不支持内置入口')
+        fallback = mock.Mock()
+        opener = builtin.ResilientShopOpener(primary=primary, fallback=fallback)
+        opener.check_entry(**self.kw)
+        primary.check_entry.assert_called_once_with(**self.kw)
+        fallback.check_entry.assert_called_once_with(**self.kw)
+
     def test_unsupported_binary_fails_before_window_close(self):
         with mock.patch.object(builtin, '_validate_main', side_effect=ShopBootstrapError('版本不支持')), \
                 mock.patch.object(builtin, '_shop_ui') as ui:
