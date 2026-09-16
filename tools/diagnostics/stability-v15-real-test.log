@@ -1,0 +1,62 @@
+2026-09-13 13:00:22,356 CONTROLLER_RELEASED
+2026-09-13 13:00:38,763 Imported existing <module 'comtypes.gen' from 'C:\\Users\\82531\\Desktop\\myProjects\\codex\\微信店店铺采集\\.tools\\native-bootstrap\\comtypes\\gen\\__init__.py'>
+2026-09-13 13:00:38,763 Using writeable comtypes cache directory: 'C:\Users\82531\Desktop\myProjects\codex\微信店店铺采集\.tools\native-bootstrap\comtypes\gen'
+2026-09-13 13:00:39,758 自动恢复：小店窗口尚未打开，保留微信登录并调用内置搜索入口
+2026-09-13 13:00:40,672 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 13:00:44,382 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 13:00:46,101 正在校验电脑版微信版本（首次约需几秒）…
+2026-09-13 13:00:46,400 此内核组合已完成静态接口核对，尚待该版本真实采集验证；建议先测试自动恢复
+2026-09-13 13:00:46,432 小程序页面已先打开；采集钩子已就绪，重新触发正常入口以注册调试会话
+2026-09-13 13:00:49,009 检测到已打开的小店窗口，保留宿主并直接切换到关键词搜索页
+2026-09-13 13:00:49,903 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 13:00:50,596 小程序调试连接已建立：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=False, 就绪=False, 最后初始化错误=无
+2026-09-13 13:00:50,603 小店调试目标：AppIndex|page|5DFA45A51EFA040109E67342D81CCFD1|https://servicewechat.com/wxca8d4b8e8feedc2a/4677/page-frame.html
+2026-09-13 13:00:50,607 已绑定小店 AppIndex 页面调试会话
+2026-09-13 13:00:50,607 小程序初始化检查：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 13:00:50,850 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 13:00:50,853 小程序调试会话已注册，继续建立采集连接
+2026-09-13 13:00:50,864 电脑版微信采集通道已连接：微信 4.1.13.65 / WMPF 25560；微信 PID 56044，小程序 PID 23224
+2026-09-13 13:00:50,881 搜索窗口已打开，但采集逻辑层未绑定；正在注册原生采集会话
+2026-09-13 13:00:50,882 小程序重开前连接状态：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 13:00:50,882 正在完整关闭“小店与卡包”小程序（保留微信登录）
+2026-09-13 13:00:50,897 新会话尚未绑定小程序，直接建立新的搜索会话
+2026-09-13 13:00:50,897 正在重新打开小程序，等待新的页面连接
+2026-09-13 13:00:51,508 小程序调试连接已建立：连接=2, 页面代次=4, 在线=1, 页面数=0, 初始化=False, 就绪=False, 最后初始化错误=无
+2026-09-13 13:00:51,510 小店调试目标：AppIndex|page|5DFA45A51EFA040109E67342D81CCFD1|https://servicewechat.com/wxca8d4b8e8feedc2a/4677/page-frame.html
+2026-09-13 13:00:51,514 已绑定小店 AppIndex 页面调试会话
+2026-09-13 13:00:51,514 小程序初始化检查：连接=2, 页面代次=4, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 13:00:51,569 原生采集逻辑层验证通过：页面、模块系统和 wx 均可用
+2026-09-13 13:00:51,569 内置入口已显示搜索页，等待已有页面连接，不重复打开小程序
+2026-09-13 13:00:51,584 SENTINEL={'sentinel': 24680, 'pages': 'function', 'modules': 'function'}
+2026-09-13 13:00:51,601 SEARCH_STATE={'route': 'subpackages/searchCenter/pages/globalSearch/globalSearch', 'keyword': '', 'offset': 0, 'limit': 10, 'hasMore': True, 'searchCommInfo': {'searchid': '', 'ossBuffer': '', 'cookie': ''}, 'loading': False}
+2026-09-13 13:01:00,274 COLLECTED page=1 products=10
+2026-09-13 13:01:00,274 PRODUCT_SAMPLE=ProductCard(product_id='10000096882735', keyword='洛克兄弟骑行包', title='洛克兄弟硬壳自行车包前梁包上管车头包手机包山地公路车骑行配件', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/65a7794b0009e8b7083f5fc82e3f0315000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=5805, price_text='', sales=129, sales_text='已售129', sales_exact=True, shop_name='洛克兄弟', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:00')
+2026-09-13 13:01:01,906 COLLECTED page=2 products=10
+2026-09-13 13:01:01,906 PRODUCT_SAMPLE=ProductCard(product_id='10000262006537', keyword='洛克兄弟骑行包', title='NEWBOLER自行车尾包公路车骑行包山地车收纳包防水便携工具包自行车单车装备座管包鞍座包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/68678221000446111dc3b91c5e931c15000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=4500, price_text='', sales=249, sales_text='已售249', sales_exact=True, shop_name='NEWBOLER户外装备', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:01')
+2026-09-13 13:01:03,249 COLLECTED page=3 products=10
+2026-09-13 13:01:03,249 PRODUCT_SAMPLE=ProductCard(product_id='10000140015032', keyword='洛克兄弟骑行包', title='新款男士胸包多功能单肩斜挎小背包轻便户外防水时尚百搭胸前包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6864e5d2000d38b61886d39566f41715000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=3390, price_text='', sales=3417, sales_text='已售3417', sales_exact=True, shop_name='皓克运动', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:03')
+2026-09-13 13:01:04,609 COLLECTED page=4 products=10
+2026-09-13 13:01:04,610 PRODUCT_SAMPLE=ProductCard(product_id='10000138001128', keyword='洛克兄弟骑行包', title='自行车梁包山地车三角包公路车挂包骑行装备', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6687d7cc0001829a113c53d11580bc1e000000a100004f50?imageView2/1/w/800/h/800/q/50', price_fen=6500, price_text='', sales=158, sales_text='已售158', sales_exact=True, shop_name='Rhinowalk犀牛·漫步', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:04')
+2026-09-13 13:01:06,258 COLLECTED page=5 products=10
+2026-09-13 13:01:06,258 PRODUCT_SAMPLE=ProductCard(product_id='10000085033315', keyword='洛克兄弟骑行包', title='洛克兄弟骑行头盔自行车头盔一体成型安全帽男女山地车公路车装备', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/655198fd000518610b528cebd060b01e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=19733, price_text='', sales=157, sales_text='已售157', sales_exact=True, shop_name='洛克兄弟', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:06')
+2026-09-13 13:01:07,618 COLLECTED page=6 products=10
+2026-09-13 13:01:07,618 PRODUCT_SAMPLE=ProductCard(product_id='10000273006746', keyword='洛克兄弟骑行包', title='男士真皮胸包多口袋软皮后背包头层牛皮包单肩包骑行包斜背', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/68e8fd8200084d502dee9e7c23fd1515000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=4597, price_text='', sales=333, sales_text='已售333', sales_exact=True, shop_name='男包工厂店-平安', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:07')
+2026-09-13 13:01:08,976 COLLECTED page=7 products=10
+2026-09-13 13:01:08,976 PRODUCT_SAMPLE=ProductCard(product_id='10000228922993', keyword='洛克兄弟骑行包', title='新款户外登山包16升徒步骑行包男超轻运动旅行女徒步越野北山狮', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6a62cc24000c1c2055fa876f0996de6e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=10800, price_text='', sales=526, sales_text='已售526', sales_exact=True, shop_name='NORTHHILL LIONS北山狮', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:08')
+2026-09-13 13:01:10,320 COLLECTED page=8 products=10
+2026-09-13 13:01:10,321 PRODUCT_SAMPLE=ProductCard(product_id='10000228553097', keyword='洛克兄弟骑行包', title='奥天新款多功能包牛津布包包简约时尚休闲包胸包斜挎包男包旅行包双肩背包女包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/664c8b52000358342105c69df781bc1e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=4900, price_text='', sales=201, sales_text='已售201', sales_exact=True, shop_name='琛奥箱包', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:10')
+2026-09-13 13:01:11,682 COLLECTED page=9 products=10
+2026-09-13 13:01:11,682 PRODUCT_SAMPLE=ProductCard(product_id='10000315488769', keyword='洛克兄弟骑行包', title='北山狼新款专业越野跑步背包马拉松骑行轻量化户外运动登山双肩包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/690c4d8c000ca266091e62f8db995315000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=20484, price_text='', sales=277, sales_text='已售277', sales_exact=True, shop_name='北山狼', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:11')
+2026-09-13 13:01:13,041 COLLECTED page=10 products=10
+2026-09-13 13:01:13,041 PRODUCT_SAMPLE=ProductCard(product_id='10000913644107', keyword='洛克兄弟骑行包', title='极光A7斜挎包轻便极简风轻职风包通勤风挎包骑行男士多功能腰包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6a44c8b60009c4b2d14668ec0996d672000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=24900, price_text='', sales=2557, sales_text='已售2557', sales_exact=True, shop_name='ReeYee烛影箱包', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:13')
+2026-09-13 13:01:14,401 COLLECTED page=11 products=10
+2026-09-13 13:01:14,401 PRODUCT_SAMPLE=ProductCard(product_id='10000177758510', keyword='洛克兄弟骑行包', title='手工头层牛皮双肩包男欧美大容量机车男包骑行真皮包潮牌电脑背包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/676e210f00003aa508174e80246ebc1e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=43800, price_text='', sales=155, sales_text='已售155', sales_exact=True, shop_name='Simple&nature包包店', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:14')
+2026-09-13 13:01:15,757 COLLECTED page=12 products=10
+2026-09-13 13:01:15,757 PRODUCT_SAMPLE=ProductCard(product_id='10000138627193', keyword='洛克兄弟骑行包', title='R1多功能旅行包干湿分离健身包商务包出差包旅行训练包男士户外包大容量40L', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/69df50cb00025483837fd866156aeace000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=29900, price_text='', sales=14000, sales_text='已售1.4万', sales_exact=True, shop_name='ReeYee箱包', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:15')
+2026-09-13 13:01:17,104 COLLECTED page=13 products=10
+2026-09-13 13:01:17,104 PRODUCT_SAMPLE=ProductCard(product_id='10000586475463', keyword='洛克兄弟骑行包', title='旅行包多巴胺户外大容量双肩包女休闲健身骑行背包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/69b8bc41000ae74b1b118f62ae6f2d1e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=3690, price_text='', sales=1327, sales_text='已售1327', sales_exact=True, shop_name='吉物舍家居', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:17')
+2026-09-13 13:01:18,193 COLLECTED page=14 products=6
+2026-09-13 13:01:18,194 PRODUCT_SAMPLE=ProductCard(product_id='10000127283398', keyword='洛克兄弟骑行包', title='[轻旅系列]小小莎推荐 途加自在双肩包轻便防泼水背包轻户外书包大容量', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/69fea09c00079f052f9d8123bf491f15000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=76900, price_text='', sales=627, sales_text='已售627', sales_exact=True, shop_name='TUPLUS途加', source='电脑版微信关键词搜索', captured_at='2026-09-13T13:01:18')
+2026-09-13 13:01:18,194 关键词“洛克兄弟骑行包”已采集完成，微信返回末页（共 14 页），共读取 136 个普通商品
+2026-09-13 13:01:18,194 ACCEPTANCE keyword=洛克兄弟骑行包 outcome=已完成 pages=14 products=136
+2026-09-13 13:01:18,240 CONTROLLER_RELEASED

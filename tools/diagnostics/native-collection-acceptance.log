@@ -1,0 +1,71 @@
+2026-09-13 11:56:20,770 Imported existing <module 'comtypes.gen' from 'C:\\Users\\82531\\Desktop\\myProjects\\codex\\微信店店铺采集\\.tools\\native-bootstrap\\comtypes\\gen\\__init__.py'>
+2026-09-13 11:56:20,770 Using writeable comtypes cache directory: 'C:\Users\82531\Desktop\myProjects\codex\微信店店铺采集\.tools\native-bootstrap\comtypes\gen'
+2026-09-13 11:56:21,806 自动恢复：小店窗口尚未打开，保留微信登录并调用内置搜索入口
+2026-09-13 11:56:22,716 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 11:56:26,271 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 11:56:27,983 正在校验电脑版微信版本（首次约需几秒）…
+2026-09-13 11:56:28,253 此内核组合已完成静态接口核对，尚待该版本真实采集验证；建议先测试自动恢复
+2026-09-13 11:56:28,281 小程序页面已先打开；采集钩子已就绪，重新触发正常入口以注册调试会话
+2026-09-13 11:56:30,886 检测到已打开的小店窗口，保留宿主并直接切换到关键词搜索页
+2026-09-13 11:56:31,790 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 11:56:32,521 小程序调试连接已建立：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=False, 就绪=False, 最后初始化错误=无
+2026-09-13 11:56:32,526 小店调试目标：AppIndex|page|49F8FF8A6200C06D47D98F74F74DACC1|https://servicewechat.com/wxca8d4b8e8feedc2a/4677/page-frame.html
+2026-09-13 11:56:32,530 已绑定小店 AppIndex 页面调试会话
+2026-09-13 11:56:32,530 小程序初始化检查：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 11:56:32,670 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 11:56:32,672 小程序调试会话已注册，继续建立采集连接
+2026-09-13 11:56:32,681 电脑版微信采集通道已连接：微信 4.1.13.65 / WMPF 25560；微信 PID 56044，小程序 PID 32924
+2026-09-13 11:56:32,698 搜索窗口已打开，但采集逻辑层未绑定；正在注册原生采集会话
+2026-09-13 11:56:32,698 小程序重开前连接状态：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 11:56:32,698 正在完整关闭“小店与卡包”小程序（保留微信登录）
+2026-09-13 11:56:32,714 新会话尚未绑定小程序，直接建立新的搜索会话
+2026-09-13 11:56:32,715 正在重新打开小程序，等待新的页面连接
+2026-09-13 11:56:33,325 小程序调试连接已建立：连接=2, 页面代次=4, 在线=1, 页面数=0, 初始化=False, 就绪=False, 最后初始化错误=无
+2026-09-13 11:56:33,327 小店调试目标：AppIndex|page|49F8FF8A6200C06D47D98F74F74DACC1|https://servicewechat.com/wxca8d4b8e8feedc2a/4677/page-frame.html
+2026-09-13 11:56:33,330 已绑定小店 AppIndex 页面调试会话
+2026-09-13 11:56:33,330 小程序初始化检查：连接=2, 页面代次=4, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 11:56:33,391 原生采集逻辑层验证通过：页面、模块系统和 wx 均可用
+2026-09-13 11:56:33,391 内置入口已显示搜索页，等待已有页面连接，不重复打开小程序
+2026-09-13 11:56:33,415 SENTINEL={'sentinel': 24680, 'pages': 'function', 'modules': 'function'}
+2026-09-13 11:56:33,417 SEARCH_STATE={'route': 'subpackages/searchCenter/pages/globalSearch/globalSearch', 'keyword': '', 'offset': 0, 'limit': 10, 'hasMore': True, 'searchCommInfo': {'searchid': '', 'ossBuffer': '', 'cookie': ''}, 'loading': False}
+2026-09-13 11:56:41,363 COLLECTED page=1 products=10
+2026-09-13 11:56:41,363 PRODUCT_SAMPLE=ProductCard(product_id='10000170568731', keyword='秋冬焦糖麂皮托特包', title='拉菲斯汀珠珠包2026春季新款头层牛皮单肩斜挎包通勤托特包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/6842671c00054b0508900b936092bb0b000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=45900, price_text='', sales=554, sales_text='已售554', sales_exact=True, shop_name='La Festin拉菲斯汀', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:41')
+2026-09-13 11:56:42,712 COLLECTED page=2 products=10
+2026-09-13 11:56:42,713 PRODUCT_SAMPLE=ProductCard(product_id='10001171319580', keyword='秋冬焦糖麂皮托特包', title='吉尼斯袋鼠复古软皮手提托特包大容量通勤单肩斜挎包妈妈百搭质感女包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6a5c718e00005a204e02ddcc0996dd7d000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=7990, price_text='', sales=2603, sales_text='已售2603', sales_exact=True, shop_name='多彩轻奢女包', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:42')
+2026-09-13 11:56:44,057 COLLECTED page=3 products=10
+2026-09-13 11:56:44,057 PRODUCT_SAMPLE=ProductCard(product_id='10001231446328', keyword='秋冬焦糖麂皮托特包', title='八妹H001新款单肩腋下托特包可折叠大容量时尚百搭轻便通勤', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/6a6c67bb0009644ee4ae8a36156aeace000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=5990, price_text='', sales=397, sales_text='已售397', sales_exact=True, shop_name='八妹的宝藏', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:44')
+2026-09-13 11:56:45,409 COLLECTED page=4 products=10
+2026-09-13 11:56:45,409 PRODUCT_SAMPLE=ProductCard(product_id='10000299328166', keyword='秋冬焦糖麂皮托特包', title='新款彩色美洲羊驼 大托特30L单肩手提多巴胺托特包户外旅行包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/6a17bb8e0006200aab12ac2909884c30000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=5990, price_text='', sales=2729, sales_text='已售2729', sales_exact=True, shop_name='长颈璐璐叁号店', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:45')
+2026-09-13 11:56:46,823 COLLECTED page=5 products=10
+2026-09-13 11:56:46,823 PRODUCT_SAMPLE=ProductCard(product_id='10001040217111', keyword='秋冬焦糖麂皮托特包', title='4/2026新款时尚百搭编织托特包女夏季轻便复古风度假通勤单肩斜挎', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/6a3b92f10000003ff68cdbf009884ede000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=4990, price_text='', sales=2736, sales_text='已售2736', sales_exact=True, shop_name='白白白服饰店', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:46')
+2026-09-13 11:56:48,206 COLLECTED page=6 products=10
+2026-09-13 11:56:48,206 PRODUCT_SAMPLE=ProductCard(product_id='10000162143525', keyword='秋冬焦糖麂皮托特包', title='女包2025秋冬新款百搭单肩女士手提包经典推荐大容量包包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6754e6a0000c36991e53ef64c6380315000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=13900, price_text='', sales=1086, sales_text='已售1086', sales_exact=True, shop_name='梵诗诺箱包优选', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:48')
+2026-09-13 11:56:49,305 COLLECTED page=7 products=10
+2026-09-13 11:56:49,306 PRODUCT_SAMPLE=ProductCard(product_id='10001161232579', keyword='秋冬焦糖麂皮托特包', title='G4089复古豹纹2026新款大容量托特包印花手提王牌豹动冻冻包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6a5b212a00080729284cb8fa1dae1b15000000a100004f50?imageView2/1/w/800/h/800/q/50', price_fen=7900, price_text='', sales=948, sales_text='已售948', sales_exact=True, shop_name='简搭服装工作室', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:49')
+2026-09-13 11:56:50,665 COLLECTED page=8 products=10
+2026-09-13 11:56:50,665 PRODUCT_SAMPLE=ProductCard(product_id='10000071862667', keyword='秋冬焦糖麂皮托特包', title='（159.9）麂皮磨砂皮质感托特大容量包包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/650cd435000d2f5b18160e813607bd1e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=14990, price_text='', sales=2245, sales_text='已售2245', sales_exact=True, shop_name='太难了杂货铺', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:50')
+2026-09-13 11:56:52,348 COLLECTED page=9 products=10
+2026-09-13 11:56:52,348 PRODUCT_SAMPLE=ProductCard(product_id='10000086776110', keyword='秋冬焦糖麂皮托特包', title='新款真皮女包托特包单肩腋下包大容量', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6558e7f5000ba9e12784c6774084bc1e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=24900, price_text='', sales=153, sales_text='已售153', sales_exact=True, shop_name='FM-彩蝶', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:52')
+2026-09-13 11:56:53,748 COLLECTED page=10 products=10
+2026-09-13 11:56:53,748 PRODUCT_SAMPLE=ProductCard(product_id='10000190236390', keyword='秋冬焦糖麂皮托特包', title='波斯丹顿新款头层植鞣牛皮手提包轻奢百搭单肩包BL1244821ZB', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/67aae718000a918428115d2789f10115000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=10900, price_text='', sales=146, sales_text='已售146', sales_exact=True, shop_name='波斯丹顿手工女包店', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:53')
+2026-09-13 11:56:55,112 COLLECTED page=11 products=10
+2026-09-13 11:56:55,112 PRODUCT_SAMPLE=ProductCard(product_id='10000165930830', keyword='秋冬焦糖麂皮托特包', title='2026新款时尚百搭斜跨包包新款大容量单肩包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/67370b0600093e0116ee66d17a07bd1e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=5990, price_text='', sales=25000, sales_text='已售2.5万', sales_exact=True, shop_name='奈斯威小畅', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:55')
+2026-09-13 11:56:56,472 COLLECTED page=12 products=10
+2026-09-13 11:56:56,472 PRODUCT_SAMPLE=ProductCard(product_id='10000933295811', keyword='秋冬焦糖麂皮托特包', title='【刘叮当】UR女包2026新款手提托特包百搭单肩包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/69aff4aa00014dfd0a35ba2e46742d1e000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=39900, price_text='', sales=1599, sales_text='已售1599', sales_exact=True, shop_name='轻奢女包以', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:56')
+2026-09-13 11:56:57,834 COLLECTED page=13 products=10
+2026-09-13 11:56:57,834 PRODUCT_SAMPLE=ProductCard(product_id='10000830079474', keyword='秋冬焦糖麂皮托特包', title='韩系小众简约大容量A级绵羊皮托特包时尚通勤水桶包单肩包-5315', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/6a69cb9f000384eb37c0fc6c098861e5000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=24900, price_text='', sales=452, sales_text='已售452', sales_exact=True, shop_name='MISSFROG来客', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:57')
+2026-09-13 11:56:59,216 COLLECTED page=14 products=10
+2026-09-13 11:56:59,216 PRODUCT_SAMPLE=ProductCard(product_id='10000111919835', keyword='秋冬焦糖麂皮托特包', title='A02托特包新款巴黎街头高级时尚百搭格纹手提斜挎手工女包#748', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/6623332300002a2707cfa89d4e7c0d15000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=25800, price_text='', sales=201, sales_text='已售201', sales_exact=True, shop_name='宝格女包', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:56:59')
+2026-09-13 11:57:00,554 COLLECTED page=15 products=10
+2026-09-13 11:57:00,554 PRODUCT_SAMPLE=ProductCard(product_id='10000178962888', keyword='秋冬焦糖麂皮托特包', title='super.ksdai头层牛皮植鞣皮手工擦色做旧多口袋大容量大肚王斜挎包四色小包8850A', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/6774d59100035c2218227246b0ed1515000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=41000, price_text='', sales=125, sales_text='已售125', sales_exact=True, shop_name='峰峰皮具哥哥', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:57:00')
+2026-09-13 11:57:01,922 COLLECTED page=16 products=10
+2026-09-13 11:57:01,922 PRODUCT_SAMPLE=ProductCard(product_id='10000496984564', keyword='秋冬焦糖麂皮托特包', title='UCM新款时尚百搭质感气质大容量植鞣羊皮托特包单肩包153724', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/69afd1e8000870762c74635f7fad1715000000a100004f50?imageView2/1/w/800/h/800/q/50', price_fen=39800, price_text='', sales=240, sales_text='已售240', sales_exact=True, shop_name='UCM原创设计白云二店', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:57:01')
+2026-09-13 11:57:03,274 COLLECTED page=17 products=10
+2026-09-13 11:57:03,274 PRODUCT_SAMPLE=ProductCard(product_id='10000446682297', keyword='秋冬焦糖麂皮托特包', title='太萌啦！高颜值猫咪毛绒包包云朵感软萌材质随身治愈感与贴心陪伴', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SH/reserved/69687e10000d96b41a05a9efb3a91b15000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=3990, price_text='', sales=520, sales_text='已售520', sales_exact=True, shop_name='TCA焦糖礼物铺', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:57:03')
+2026-09-13 11:57:04,621 COLLECTED page=18 products=10
+2026-09-13 11:57:04,622 PRODUCT_SAMPLE=ProductCard(product_id='10000786640757', keyword='秋冬焦糖麂皮托特包', title='GELANDAI戈兰黛品牌女包2026新款大容量通勤托特包女士手提大包包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/69f021d20000f131011e3b742f2e5515000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=9900, price_text='', sales=2848, sales_text='已售2848', sales_exact=True, shop_name='GELANDAI兰兰箱包店', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:57:04')
+2026-09-13 11:57:05,493 COLLECTED page=19 products=1
+2026-09-13 11:57:05,493 PRODUCT_SAMPLE=ProductCard(product_id='10000470557864', keyword='秋冬焦糖麂皮托特包', title='路易卡迪 LC印花压花双面单肩托特包', main_image_url='https://wst.wxapp.tc.qq.com/161/20304/snscosdownload/SZ/reserved/6aa3625c000cd289a2fb93ce156aeacb000000a000004f50?imageView2/1/w/800/h/800/q/50', price_fen=29990, price_text='', sales=425, sales_text='已售425', sales_exact=True, shop_name='路易卡迪女包店', source='电脑版微信关键词搜索', captured_at='2026-09-13T11:57:05')
+2026-09-13 11:57:05,493 关键词“秋冬焦糖麂皮托特包”已采集完成，微信返回末页（共 19 页），共读取 181 个普通商品
+2026-09-13 11:57:05,493 ACCEPTANCE keyword=秋冬焦糖麂皮托特包 outcome=已完成 pages=19 products=181
+2026-09-13 11:57:05,535 CONTROLLER_RELEASED

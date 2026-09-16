@@ -1,0 +1,8 @@
+2026-09-13 14:15:24,924 正在校验电脑版微信版本（首次约需几秒）…
+2026-09-13 14:15:25,229 此内核组合已完成静态接口核对，尚待该版本真实采集验证；建议先测试自动恢复
+2026-09-13 14:15:25,490 电脑版微信采集通道已连接：微信 4.1.13.65 / WMPF 25560；微信 PID 63336，小程序 PID 14020
+2026-09-13 14:15:28,553 Imported existing <module 'comtypes.gen' from 'C:\\Users\\82531\\Desktop\\myProjects\\codex\\微信店店铺采集\\.tools\\native-bootstrap\\comtypes\\gen\\__init__.py'>
+2026-09-13 14:15:28,554 Using writeable comtypes cache directory: 'C:\Users\82531\Desktop\myProjects\codex\微信店店铺采集\.tools\native-bootstrap\comtypes\gen'
+2026-09-13 14:15:30,014 检测到已打开的小店窗口，保留宿主并直接切换到关键词搜索页
+2026-09-13 14:15:30,730 检测到现有小店搜索页，跳过重复启动，直接等待采集连接
+2026-09-13 14:15:45,742 CONTROLLER_RELEASED

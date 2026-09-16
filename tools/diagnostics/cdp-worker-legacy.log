@@ -1,0 +1,29 @@
+2026-09-13 11:44:14,221 Imported existing <module 'comtypes.gen' from 'C:\\Users\\82531\\Desktop\\myProjects\\codex\\微信店店铺采集\\.tools\\native-bootstrap\\comtypes\\gen\\__init__.py'>
+2026-09-13 11:44:14,221 Using writeable comtypes cache directory: 'C:\Users\82531\Desktop\myProjects\codex\微信店店铺采集\.tools\native-bootstrap\comtypes\gen'
+2026-09-13 11:44:15,234 自动恢复：小店窗口尚未打开，保留微信登录并调用内置搜索入口
+2026-09-13 11:44:16,157 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 11:44:19,505 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 11:44:21,316 正在校验电脑版微信版本（首次约需几秒）…
+2026-09-13 11:44:21,592 此内核组合已完成静态接口核对，尚待该版本真实采集验证；建议先测试自动恢复
+2026-09-13 11:44:21,621 小程序页面已先打开；采集钩子已就绪，重新触发正常入口以注册调试会话
+2026-09-13 11:44:24,235 检测到已打开的小店窗口，保留宿主并直接切换到关键词搜索页
+2026-09-13 11:44:25,151 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 11:44:25,754 小程序调试连接已建立：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=False, 就绪=False, 最后初始化错误=无
+2026-09-13 11:44:25,755 CONTEXT_MESSAGE={'category': 'setupContext', 'data': {}}
+2026-09-13 11:44:25,759 小店调试目标：AppIndex|page|90A5CC499102E7591DCC6867C569A283|https://servicewechat.com/wxca8d4b8e8feedc2a/4677/page-frame.html
+2026-09-13 11:44:25,763 已绑定小店 AppIndex 页面调试会话
+2026-09-13 11:44:25,763 小程序初始化检查：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 11:44:25,991 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 11:44:25,993 小程序调试会话已注册，继续建立采集连接
+2026-09-13 11:44:26,010 WMPF 25560 不支持 XWeb.version，页面脚本固定使用 CDP
+2026-09-13 11:44:26,010 电脑版微信采集通道已连接：微信 4.1.13.65 / WMPF 25560；微信 PID 56044，小程序 PID 32924
+2026-09-13 11:44:26,011 CONTEXT_IDS={}
+2026-09-13 11:44:26,012 [CDP-PROBE] raw_evaluate_reply={"id": 9, "result": {"result": {"type": "string", "value": "{\"sentinel\":24680,\"pages\":\"undefined\",\"modules\":\"undefined\",\"wx\":\"undefined\",\"window\":\"object\",\"keys\":[\"pageXOffset\",\"pageYOffset\",\"oncontextlost\",\"oncontextmenu\",\"oncontextrestored\",\"onpagehide\",\"onpageshow\",\"isSecureContext\",\"onpageswap\",\"onpagereveal\",\"_WXJS\",\"__wx_translate\"]}"}}, "sessionId": "9FFA31E2C0D152DE36E6B3577CB5BB16"}
+2026-09-13 11:44:26,012 APPINDEX_ENV={'sentinel': 24680, 'pages': 'undefined', 'modules': 'undefined', 'wx': 'undefined', 'window': 'object', 'keys': ['pageXOffset', 'pageYOffset', 'oncontextlost', 'oncontextmenu', 'oncontextrestored', 'onpagehide', 'onpageshow', 'isSecureContext', 'onpageswap', 'onpagereveal', '_WXJS', '__wx_translate']}
+2026-09-13 11:44:26,013 [CDP-PROBE] raw_evaluate_reply={"id": 10, "result": {"result": {"type": "string", "value": "{\"sentinel\":24680,\"pages\":\"undefined\",\"modules\":\"undefined\",\"wx\":\"undefined\",\"window\":\"object\",\"keys\":[\"pageXOffset\",\"pageYOffset\",\"oncontextlost\",\"oncontextmenu\",\"oncontextrestored\",\"onpagehide\",\"onpageshow\",\"isSecureContext\",\"onpageswap\",\"onpagereveal\",\"_WXJS\",\"__wx_translate\"]}"}}}
+2026-09-13 11:44:26,013 DEFAULT_ENV={'id': 10, 'result': {'result': {'type': 'string', 'value': '{"sentinel":24680,"pages":"undefined","modules":"undefined","wx":"undefined","window":"object","keys":["pageXOffset","pageYOffset","oncontextlost","oncontextmenu","oncontextrestored","onpagehide","onpageshow","isSecureContext","onpageswap","onpagereveal","_WXJS","__wx_translate"]}'}}}
+2026-09-13 11:44:26,014 SHOP_WORKER_ERROR target=F8C9633A992652CE44EE2A22CAE64532 error={'code': -32000, 'message': 'When using flat protocol, messages are routed to the target via the sessionId attribute.'}
+2026-09-13 11:44:26,015 SHOP_WORKER_ERROR target=C5DC311549E86A04B8330E25F796B1C3 error={'code': -32000, 'message': 'When using flat protocol, messages are routed to the target via the sessionId attribute.'}
+2026-09-13 11:44:26,016 SHOP_WORKER_ERROR target=3C67E3CD83BD74BBD918F213342376CF error={'code': -32000, 'message': 'When using flat protocol, messages are routed to the target via the sessionId attribute.'}
+2026-09-13 11:44:26,017 SHOP_WORKER_ERROR target=8EDCB90BEC2885AA4B08FF80C4152236 error={'code': -32000, 'message': 'When using flat protocol, messages are routed to the target via the sessionId attribute.'}
+2026-09-13 11:44:26,061 CONTROLLER_RELEASED

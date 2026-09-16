@@ -1,0 +1,27 @@
+.venv/
+.venv312/
+.tools/
+build/
+dist/
+.tmp*/
+tmp_py314/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+data/products.csv
+data/products.json
+data/debug/
+
+# Local capture/debug artifacts and user-specific inputs
+tmp_*.py
+tmp-*.png
+tmp_*.png
+current_keywords*.txt
+@AutomationLog.txt
+
+# Large local phone images and installer packages
+*.img
+*.apk
+Magisk-*.apk
+magisk-*.png

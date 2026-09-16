@@ -1,0 +1,31 @@
+2026-09-13 11:39:35,341 CONTROLLER_RELEASED
+2026-09-13 11:39:55,426 Imported existing <module 'comtypes.gen' from 'C:\\Users\\82531\\Desktop\\myProjects\\codex\\微信店店铺采集\\.tools\\native-bootstrap\\comtypes\\gen\\__init__.py'>
+2026-09-13 11:39:55,427 Using writeable comtypes cache directory: 'C:\Users\82531\Desktop\myProjects\codex\微信店店铺采集\.tools\native-bootstrap\comtypes\gen'
+2026-09-13 11:39:56,448 自动恢复：小店窗口尚未打开，保留微信登录并调用内置搜索入口
+2026-09-13 11:39:57,397 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 11:40:01,190 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 11:40:03,017 正在校验电脑版微信版本（首次约需几秒）…
+2026-09-13 11:40:03,290 此内核组合已完成静态接口核对，尚待该版本真实采集验证；建议先测试自动恢复
+2026-09-13 11:40:03,321 小程序页面已先打开；采集钩子已就绪，重新触发正常入口以注册调试会话
+2026-09-13 11:40:05,945 检测到已打开的小店窗口，保留宿主并直接切换到关键词搜索页
+2026-09-13 11:40:06,869 自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手
+2026-09-13 11:40:07,540 小程序调试连接已建立：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=False, 就绪=False, 最后初始化错误=无
+2026-09-13 11:40:07,544 小店调试目标：AppIndex|page|0B5AADB632E904F71AE94EBE81A03819|https://servicewechat.com/wxca8d4b8e8feedc2a/4677/page-frame.html
+2026-09-13 11:40:07,546 已绑定小店 AppIndex 页面调试会话
+2026-09-13 11:40:07,546 小程序初始化检查：连接=1, 页面代次=1, 在线=1, 页面数=0, 初始化=True, 就绪=True, 最后初始化错误=无
+2026-09-13 11:40:07,744 内置启动完成：搜索页内容已显示，正在重新建立采集连接
+2026-09-13 11:40:07,746 小程序调试会话已注册，继续建立采集连接
+2026-09-13 11:40:07,748 WMPF 25560 不支持 XWeb.version，页面脚本固定使用 CDP
+2026-09-13 11:40:07,748 电脑版微信采集通道已连接：微信 4.1.13.65 / WMPF 25560；微信 PID 56044，小程序 PID 32924
+2026-09-13 11:40:07,748 内置入口已显示搜索页，等待已有页面连接，不重复打开小程序
+2026-09-13 11:40:07,749 [CDP-PROBE] raw_evaluate_reply={"id": 8, "result": {"result": {"type": "string", "value": "{\"route\":\"\",\"keyword\":\"\",\"offset\":0,\"limit\":10,\"hasMore\":false,\"searchCommInfo\":{},\"loading\":false,\"error\":\"ReferenceError: require is not defined\"}"}}, "sessionId": "48507ECA4294A874C64C7E079EB52E55"}
+2026-09-13 11:40:07,750 [CDP-PROBE] raw_evaluate_reply={"id": 9, "result": {"result": {"type": "string", "value": "{\"ok\":false,\"error\":\"wx-unavailable\"}"}}, "sessionId": "48507ECA4294A874C64C7E079EB52E55"}
+2026-09-13 11:40:07,750 搜索页切换返回空结果，等待页面导航完成后重试
+2026-09-13 11:40:08,366 [CDP-PROBE] raw_evaluate_reply={"id": 10, "result": {"result": {"type": "string", "value": "{\"ok\":false,\"error\":\"wx-unavailable\"}"}}, "sessionId": "48507ECA4294A874C64C7E079EB52E55"}
+2026-09-13 11:40:08,970 [CDP-PROBE] raw_evaluate_reply={"id": 11, "result": {"result": {"type": "string", "value": "{\"ok\":false,\"error\":\"wx-unavailable\"}"}}, "sessionId": "48507ECA4294A874C64C7E079EB52E55"}
+2026-09-13 11:40:09,580 [CDP-PROBE] raw_evaluate_reply={"id": 12, "result": {"result": {"type": "string", "value": "{\"ok\":false,\"error\":\"wx-unavailable\"}"}}, "sessionId": "48507ECA4294A874C64C7E079EB52E55"}
+2026-09-13 11:40:09,580 搜索页仍未返回结果，正在通过页面调试通道重试
+2026-09-13 11:40:09,581 内置搜索页已显示，首次状态读取超时；复用当前页面，不重复导航：无法进入电脑版微信商品搜索页：搜索页脚本未返回，页面仍在初始化
+2026-09-13 11:40:09,581 SENTINEL=None
+2026-09-13 11:40:09,582 SEARCH_STATE=None
+2026-09-13 11:40:09,619 CONTROLLER_RELEASED
