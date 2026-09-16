@@ -81,6 +81,24 @@ class DesktopProfileTests(unittest.TestCase):
         self.assertIn(f'loadStartOffset={0x2ce7cf0}', script)
         self.assertIn('cdpFilterOffset=0', script)
 
+    def test_registered_4159_25710_disables_unverified_native_hooks(self):
+        profiles = getattr(desktop, 'SUPPORTED_PROFILES', (desktop.SUPPORTED_PROFILE,))
+        matched = [p for p in profiles if '4.1.15.9' in p.source and '25710' in p.source]
+        self.assertEqual(len(matched), 1)
+        profile = matched[0]
+        self.assertEqual(profile.weixin_size, 201517608)
+        self.assertEqual(profile.flue_size, 237164080)
+        self.assertEqual(profile.weixin_ipc_task_offset, 0x54167c0)
+        self.assertEqual(profile.wmpf_reply_offset, 0x26ba220)
+        self.assertEqual(profile.wmpf_load_start_offset, 0)
+        self.assertEqual(profile.wmpf_cdp_filter_offset, 0)
+        self.assertEqual(profile.scene_offsets, ())
+        script = desktop._build_wmpf_script(profile)
+        self.assertIn('if(loadStartOffset) Interceptor.attach', script)
+        self.assertIn('if(cdpFilterOffset) Interceptor.attach', script)
+        self.assertIn('loadStartOffset=0', script)
+        self.assertIn('cdpFilterOffset=0', script)
+
 
 if __name__ == '__main__':
     unittest.main()

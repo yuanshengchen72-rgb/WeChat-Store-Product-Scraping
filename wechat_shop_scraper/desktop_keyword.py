@@ -172,6 +172,26 @@ _WMPF_25560 = dict(
     wmpf_cdp_filter_offset=0,
     scene_offsets=(64, 1536, 8, 1472, 16, 456),
 )
+_WEIXIN_4159 = dict(
+    # WeChat 4.1.15.9 installed on this machine. The IPC dispatcher was
+    # matched against the 4.1.13.65 function shape and its stable call-site
+    # string references; do not infer this from the product version alone.
+    weixin_sha256="1b599c66ada05ab12f9850cffe9d44314abb0440fde3d74623ada1c71dc94508",
+    weixin_size=201517608,
+    weixin_ipc_task_offset=0x54167c0,
+)
+_WMPF_25710 = dict(
+    # WMPF 2.5.7.25710. The reply function is the unique normalized match
+    # from the verified 25560 HostCdpReplyBinding::Reply implementation.
+    flue_sha256="3211ee33fd42f96edf8390e641af671a47b77d03cc09c4723dafdbae5cf75665",
+    flue_size=237164080,
+    # 25710's load-start and filter functions changed shape. Keeping these
+    # hooks disabled avoids attaching to an unverified address; the CDP
+    # bridge and verified reply hook remain available for an existing page.
+    wmpf_load_start_offset=0,
+    wmpf_cdp_filter_offset=0,
+    scene_offsets=(),
+)
 _STATIC_COMPAT_NOTE = "此内核组合已完成静态接口核对，尚待该版本真实采集验证；建议先测试自动恢复"
 # WeChat and WMPF update independently. Each explicitly allowed pair retains
 # its own exact file hashes and the offsets for its actual two components.
@@ -183,6 +203,11 @@ SUPPORTED_PROFILES = (
             validation_note=_STATIC_COMPAT_NOTE),
     replace(SUPPORTED_PROFILE, **_WEIXIN_65, **_WMPF_25560, source="微信 4.1.13.65 / WMPF 25560",
             validation_note=_STATIC_COMPAT_NOTE),
+    replace(SUPPORTED_PROFILE, **_WEIXIN_4159, **_WMPF_25710,
+            wmpf_on_command_offset=0,
+            wmpf_reply_offset=0x26ba220,
+            source="微信 4.1.15.9 / WMPF 25710",
+            validation_note="已匹配本机微信 4.1.15.9 / WMPF 25710；仅启用已核对的 IPC 与回包入口，未验证的页面钩子已关闭"),
 )
 
 
@@ -207,8 +232,8 @@ def validate_desktop_profile(
                   if profile.weixin_size == weixin_stat.st_size and profile.flue_size == flue_stat.st_size]
     if not candidates:
         raise DesktopWechatError(
-            "当前电脑版微信内核组合暂未适配。现支持微信 4.1.13.63 / 4.1.13.65，"
-            "小程序 WMPF 25558 / 25560 的指定文件；请不要强行运行，以免微信崩溃。"
+            "当前电脑版微信内核组合暂未适配。现支持微信 4.1.13.63 / 4.1.13.65 / 4.1.15.9，"
+            "小程序 WMPF 25558 / 25560 / 25710 的指定文件；请不要强行运行，以免微信崩溃。"
             f"文件大小：Weixin.dll={weixin_stat.st_size}，flue.dll={flue_stat.st_size}"
         )
     cache_key = (
@@ -504,7 +529,7 @@ function patchScene(a1) {{
     scene.writeInt(1101); scenePatched=scene.readInt()===1101;
   }} catch(e) {{}}
 }}
-Interceptor.attach(module.base.add(loadStartOffset), {{onEnter(args){{
+if(loadStartOffset) Interceptor.attach(module.base.add(loadStartOffset), {{onEnter(args){{
   try{{if(args[1].and(0xff).toInt32()!==1)args[1]=args[1].and(ptr('0xffffffffffffff00')).or(1);patchScene(args[0]);}}catch(e){{}}
 }}}});
 if(cdpFilterOffset) Interceptor.attach(module.base.add(cdpFilterOffset), {{
@@ -981,6 +1006,17 @@ class DesktopWechatBackend:
             raise DesktopWechatError("未配置小店正常启动入口")
         self._invoke_normal_entry(self.normal_shop_opener, force_relaunch=force_relaunch)
 
+    def _bootstrap_normal_shop_compat(self, *, force_relaunch: bool = False) -> None:
+        """Call launch extensions that may predate the relaunch flag."""
+        try:
+            self._bootstrap_normal_shop(force_relaunch=force_relaunch)
+        except TypeError as exc:
+            if (force_relaunch
+                    and "unexpected keyword argument 'force_relaunch'" in str(exc)):
+                self._bootstrap_normal_shop()
+            else:
+                raise
+
     def _rearm_normal_entry_after_attach(self) -> None:
         """Re-dispatch the normal entry after hooks are mounted.
 
@@ -998,7 +1034,7 @@ class DesktopWechatBackend:
         self.log("小程序页面已先打开；采集钩子已就绪，关闭并重新打开正常入口以注册调试会话")
         self._normal_bootstrap_in_progress = True
         try:
-            self._bootstrap_normal_shop(force_relaunch=True)
+            self._bootstrap_normal_shop_compat(force_relaunch=True)
         finally:
             self._normal_bootstrap_in_progress = False
         if not self.cdp_bridge.wait_runtime(15.0, cancel_event=self.cancel_event):
@@ -1020,7 +1056,19 @@ class DesktopWechatBackend:
             )
             if force_relaunch:
                 entry_kwargs["force_relaunch"] = True
-            opener(**entry_kwargs)
+            try:
+                opener(**entry_kwargs)
+            except TypeError as exc:
+                # Keep compatibility with user supplied launchers written
+                # before force_relaunch was added. Only retry the exact
+                # signature mismatch; never hide a TypeError from inside the
+                # launcher itself.
+                if (force_relaunch
+                        and "unexpected keyword argument 'force_relaunch'" in str(exc)):
+                    entry_kwargs.pop("force_relaunch", None)
+                    opener(**entry_kwargs)
+                else:
+                    raise
         except ShopBootstrapEntryUnavailable as exc:
             self._check_cancelled()
             raise DesktopRecoveryEntryUnavailable(str(exc)) from exc
@@ -1242,7 +1290,7 @@ class DesktopWechatBackend:
             self.log("采集逻辑层未绑定；先重新触发已验证的小店入口，不直接强制重启小程序")
             self._normal_bootstrap_in_progress = True
             try:
-                self._bootstrap_normal_shop(force_relaunch=True)
+                self._bootstrap_normal_shop_compat(force_relaunch=True)
                 self._normal_entry_opened_search = True
             finally:
                 self._normal_bootstrap_in_progress = False
@@ -1657,7 +1705,7 @@ class DesktopWechatBackend:
                 # Match the user's working recovery sequence exactly: release
                 # the failed session, close/open through the normal entry, wait for
                 # its real content, THEN connect like a fresh Continue action.
-                self._bootstrap_normal_shop(force_relaunch=True)
+                self._bootstrap_normal_shop_compat(force_relaunch=True)
                 self.start()
             finally:
                 self._normal_bootstrap_in_progress = False
@@ -1818,7 +1866,7 @@ class DesktopWechatBackend:
                 self.log("当前小店窗口仍在但调试会话未注册，立即通过正常入口重新注册")
                 self._normal_bootstrap_in_progress = True
                 try:
-                    self._bootstrap_normal_shop(force_relaunch=True)
+                    self._bootstrap_normal_shop_compat(force_relaunch=True)
                 finally:
                     self._normal_bootstrap_in_progress = False
                 if not self.cdp_bridge.wait_runtime(
