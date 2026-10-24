@@ -75,13 +75,13 @@ class AppDataTests(unittest.TestCase):
             with mock.patch.dict(os.environ, {}, clear=False):
                 prepared = prepare_frozen_tk_runtime(internal, storage)
 
-                self.assertEqual(prepared, storage / "tk-runtime-8.6")
-                self.assertTrue((prepared / "tcl" / "init.tcl").is_file())
-                self.assertTrue((prepared / "tk" / "tk.tcl").is_file())
+                self.assertEqual(prepared, storage / "tk-runtime-8.6-v2")
+                self.assertTrue((prepared / "tcl8.6" / "init.tcl").is_file())
+                self.assertTrue((prepared / "tk8.6" / "tk.tcl").is_file())
                 self.assertEqual(
-                    os.environ["TCL_LIBRARY"], str(prepared / "tcl")
+                    os.environ["TCL_LIBRARY"], str(prepared / "tcl8.6")
                 )
-                self.assertEqual(os.environ["TK_LIBRARY"], str(prepared / "tk"))
+                self.assertEqual(os.environ["TK_LIBRARY"], str(prepared / "tk8.6"))
 
 
 if __name__ == "__main__":

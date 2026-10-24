@@ -28,7 +28,18 @@ mobile_datas = [
     ("wechat_shop_scraper/assets/platform-tools/AdbWinUsbApi.dll", "wechat_shop_scraper/assets/platform-tools"),
 ]
 python_root = Path(sys.base_prefix)
-tk_datas = [(str(python_root / "tcl"), "tcl")]
+tk_tcl = python_root / "tcl" / "tcl8.6"
+tk_tk = python_root / "tcl" / "tk8.6"
+if not tk_tcl.is_dir() or not tk_tk.is_dir():
+    raise SystemExit(f"Python Tcl/Tk runtime not found under {python_root / 'tcl'}")
+tk_datas = [(str(tk_tcl), "_tcl_data"), (str(tk_tk), "_tk_data")]
+if (python_root / "_tcl_data").is_dir():
+    tk_datas.append((str(python_root / "_tcl_data"), "_tcl_data"))
+if (python_root / "_tk_data").is_dir():
+    tk_datas.append((str(python_root / "_tk_data"), "_tk_data"))
+tk_package = python_root / "Lib" / "tkinter"
+if tk_package.is_dir():
+    tk_datas.append((str(tk_package), "tkinter"))
 
 stdlib_root = python_root / "Lib"
 a = Analysis(

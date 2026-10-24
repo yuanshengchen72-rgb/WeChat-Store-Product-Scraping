@@ -678,10 +678,36 @@ class WmpfCdpBridge:
                                 _cancel_generation=cancellation)
             infos = ((targets.get("result") or {}).get("targetInfos")
                      if isinstance(targets, dict) else []) or []
+            self.log("WMPF 调试目标列表：" + "; ".join(
+                f"{item.get('type','')}|{item.get('title','')}|{item.get('targetId','')}|{item.get('url','')}"
+                for item in infos if isinstance(item, dict)
+            )[:3000])
             app_targets = [item for item in infos
                            if isinstance(item, dict)
                            and item.get("type") in {"page", "webview"}
                            and "wxca8d4b8e8feedc2a" in str(item.get("url") or "")]
+            if not app_targets:
+                # Newer WMPF builds no longer expose the legacy AppIndex
+                # token.  This CDP server belongs to the already attached
+                # WMPF process, so its page targets are all app-owned.  Pick
+                # the most likely live mini-program page instead of refusing
+                # to bind whenever the host reports more than one target.
+                fallback = [item for item in infos
+                             if isinstance(item, dict)
+                             and item.get("type") in {"page", "webview"}
+                             and item.get("targetId")]
+                if fallback:
+                    def _target_score(item: dict) -> tuple[int, str]:
+                        text = " ".join(str(item.get(key) or "").lower()
+                                        for key in ("title", "url"))
+                        score = sum(weight for token, weight in (
+                            ("search", 8), ("wxshop", 7), ("wmpf", 6),
+                            ("webview", 4), ("miniprogram", 4),
+                            ("小店", 5), ("搜索", 5),
+                        ) if token in text)
+                        return (-score, str(item.get("targetId") or ""))
+                    app_targets = [sorted(fallback, key=_target_score)[0]]
+                    self.log("未发现旧版 AppIndex 标识，使用 WMPF 候选页面目标")
             if app_targets:
                 summary = "; ".join(
                     f"{item.get('title','')}|{item.get('type','')}|{item.get('targetId','')}|{item.get('url','')}"

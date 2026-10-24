@@ -25,7 +25,7 @@ class BuiltinLaunchTests(unittest.TestCase):
         self.native.status.return_value = 'dispatched'
 
     def invoke(self):
-        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0)), \
+        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0, 0x220a80)), \
                 mock.patch.object(builtin, '_shop_ui', return_value=mock.MagicMock(
                     __enter__=mock.Mock(return_value=self.ui), __exit__=mock.Mock(return_value=False))), \
                 mock.patch.object(builtin, '_NativeLaunch', return_value=self.native), \
@@ -62,7 +62,7 @@ class BuiltinLaunchTests(unittest.TestCase):
     def test_visible_search_window_is_not_relaunched_during_recovery(self):
         self.ui.shop_windows.return_value = [42]
         self.ui.search_rendered.return_value = True
-        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0)), \
+        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0, 0x220a80)), \
                 mock.patch.object(builtin, '_shop_ui', return_value=mock.MagicMock(
                     __enter__=mock.Mock(return_value=self.ui), __exit__=mock.Mock(return_value=False))), \
                 mock.patch.object(builtin, '_NativeLaunch', return_value=self.native), \
@@ -74,7 +74,7 @@ class BuiltinLaunchTests(unittest.TestCase):
         """An unbound session must get a fresh page, not reuse the old one."""
         self.ui.shop_windows.side_effect = [[42], [42], []]
         self.ui.search_rendered.return_value = True
-        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0)), \
+        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0, 0x220a80)), \
                 mock.patch.object(builtin, '_shop_ui', return_value=mock.MagicMock(
                     __enter__=mock.Mock(return_value=self.ui), __exit__=mock.Mock(return_value=False))), \
                 mock.patch.object(builtin, '_NativeLaunch', return_value=self.native), \
@@ -91,7 +91,7 @@ class BuiltinLaunchTests(unittest.TestCase):
         self.ui.search_rendered.assert_not_called()
 
     def test_preflight_validates_binary_without_opening_or_chat(self):
-        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0)) as validate, \
+        with mock.patch.object(builtin, '_validate_main', return_value=(33, 0x7866f0, 0x220a80)) as validate, \
                 mock.patch.object(builtin, '_shop_ui') as ui, \
                 mock.patch.object(builtin, '_NativeLaunch') as native:
             builtin.BuiltinShopOpener().check_entry(**self.kw)
@@ -136,6 +136,14 @@ class BuiltinLaunchTests(unittest.TestCase):
             backend._restore_normal_shop(30)
         self.assertEqual(steps, ['detach', 'normal-entry', 'guarded-attach'])
         backend._launch_applet.assert_not_called()
+
+    def test_entries_registered_for_all_supported_weixin_builds(self):
+        self.assertEqual(builtin._ENTRIES[
+            '8bf9ae1edf52676bbfa2e0c4024af207c0f9bba589758f99de467515c90635e1'],
+            {'constructor': 0x7866f0, 'launch': 0x220a80})
+        self.assertEqual(builtin._ENTRIES[
+            '8f7406a8a465e851ee10eaecccb572d0e5b4e00d480c770938c714c396097b74'],
+            {'constructor': 0x7869b0, 'launch': 0x220a80})
 
     def test_close_uses_applet_close_button_instead_of_merely_window_message(self):
         ui = _ShopUI.__new__(_ShopUI)

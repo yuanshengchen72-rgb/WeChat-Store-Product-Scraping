@@ -227,12 +227,22 @@ class HostCrashTests(unittest.TestCase):
 
     def test_wmpf_25560_process_termination_after_hook_attach_is_fatal(self):
         backend = DesktopWechatBackend()
-        backend.profile = mock.Mock(source='微信 4.1.13.65 / WMPF 25560')
+        backend.profile = mock.Mock(source='微信 4.1.13.65 / WMPF 25560', runtime_verified=False)
         backend._hooks_attached_at = 10.0
         with mock.patch('wechat_shop_scraper.desktop_keyword.time.monotonic', return_value=12.0):
             backend._on_native_detached(backend.wmpf_session, '小程序', 'process-terminated')
         self.assertIsNotNone(backend.fatal_error)
         self.assertIn('钩子', str(backend.fatal_error))
+
+    def test_verified_base_kernel_crash_is_not_treated_as_hook_incompatibility(self):
+        # The runtime-verified 25558 base must NOT trip the compatibility
+        # breaker: a crash there is a normal transient loss, recoverable.
+        backend = DesktopWechatBackend()
+        backend.profile = mock.Mock(source='微信 4.1.13.63 / WMPF 25558', runtime_verified=True)
+        backend._hooks_attached_at = 10.0
+        with mock.patch('wechat_shop_scraper.desktop_keyword.time.monotonic', return_value=12.0):
+            backend._on_native_detached(backend.wmpf_session, '小程序', 'process-terminated')
+        self.assertIsNone(backend.fatal_error)
 
     def test_fatal_hook_error_is_not_sent_through_filehelper_recovery(self):
         backend = DesktopWechatBackend(normal_shop_opener=mock.Mock())

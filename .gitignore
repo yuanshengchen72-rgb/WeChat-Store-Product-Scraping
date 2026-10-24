@@ -13,6 +13,11 @@ data/products.csv
 data/products.json
 data/debug/
 
+# Runtime captures, reverse-engineering dumps and local recovery logs.
+data/*
+!data/.gitkeep
+._cache*
+
 # Local capture/debug artifacts and user-specific inputs
 tmp_*.py
 tmp-*.png

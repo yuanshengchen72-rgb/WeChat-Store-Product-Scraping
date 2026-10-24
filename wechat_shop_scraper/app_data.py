@@ -22,8 +22,21 @@ def prepare_frozen_tk_runtime(
         internal_dir = getattr(sys, "_MEIPASS", Path(sys.executable).parent)
 
     source_root = Path(internal_dir)
-    source_tcl = source_root / "_tcl_data"
-    source_tk = source_root / "_tk_data"
+    # PyInstaller 6 one-dir builds keep the bundled payload in an
+    # ``_internal`` child while older builds put it directly beside the
+    # executable.  Resolve both layouts before checking init.tcl; otherwise
+    # the runtime hook leaves TCL_LIBRARY pointing at a nonexistent sibling
+    # and Tk fails before the GUI is created.
+    if not (source_root / "_tcl_data" / "init.tcl").is_file():
+        nested = source_root / "_internal"
+        if (nested / "_tcl_data" / "init.tcl").is_file():
+            source_root = nested
+    source_tcl = source_root / "tcl" / "tcl8.6"
+    source_tk = source_root / "tcl" / "tk8.6"
+    if not (source_tcl / "init.tcl").is_file():
+        # Compatibility with the legacy hand-collected layout.
+        source_tcl = source_root / "_tcl_data"
+        source_tk = source_root / "_tk_data"
     if not (source_tcl / "init.tcl").is_file() or not (
         source_tk / "tk.tcl"
     ).is_file():
@@ -36,12 +49,12 @@ def prepare_frozen_tk_runtime(
             if local_app_data
             else Path(tempfile.gettempdir()) / "WeChatShopScraper"
         )
-    target_root = Path(storage_root) / "tk-runtime-8.6"
-    target_tcl = target_root / "tcl"
-    target_tk = target_root / "tk"
+    target_root = Path(storage_root) / "tk-runtime-8.6-v2"
+    target_tcl = target_root / "tcl8.6"
+    target_tk = target_root / "tk8.6"
     marker = target_root / ".complete"
     signature = (
-        f"{(source_tcl / 'init.tcl').stat().st_size}:"
+        f"v2:{(source_tcl / 'init.tcl').stat().st_size}:"
         f"{(source_tk / 'tk.tcl').stat().st_size}"
     )
     try:

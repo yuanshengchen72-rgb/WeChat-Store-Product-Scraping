@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import tkinter
 import typing
 import tempfile
@@ -30,6 +31,13 @@ def run_self_test() -> int:
         return 1
 
     try:
+        # The repository keeps the Windows UIAutomation/comtypes runtime in
+        # .tools/native-bootstrap for source-tree tests.  Frozen builds place
+        # the same modules on the bundled import path already.
+        if not getattr(sys, "frozen", False):
+            bootstrap = Path(__file__).resolve().parents[1] / ".tools" / "native-bootstrap"
+            if bootstrap.is_dir() and str(bootstrap) not in sys.path:
+                sys.path.insert(0, str(bootstrap))
         import frida  # type: ignore
         import websocket  # type: ignore
         import uiautomation

@@ -14,10 +14,21 @@ from .desktop_bootstrap import _ShopUI, _check_cancel, ShopBootstrapError, ShopB
 from .desktop_bootstrap import FileHelperShopOpener, ShopBootstrapEntryUnavailable
 
 
-_CONSTRUCTORS = {
-    '8bf9ae1edf52676bbfa2e0c4024af207c0f9bba589758f99de467515c90635e1': 0x7866f0,
-    '8f7406a8a465e851ee10eaecccb572d0e5b4e00d480c770938c714c396097b74': 0x7869b0,
+# Each verified Weixin.dll maps to its own two native entry points: the
+# default-request constructor and the normal-launch dispatch. Both are exact
+# function starts confirmed by static PE comparison; never a version string
+# or a size-only allowlist. 4.1.13.63/.65 share the 0x220a80 dispatch.
+_ENTRIES = {
+    # Weixin 4.1.13.63
+    '8bf9ae1edf52676bbfa2e0c4024af207c0f9bba589758f99de467515c90635e1':
+        {'constructor': 0x7866f0, 'launch': 0x220a80},
+    # Weixin 4.1.13.65
+    '8f7406a8a465e851ee10eaecccb572d0e5b4e00d480c770938c714c396097b74':
+        {'constructor': 0x7869b0, 'launch': 0x220a80},
 }
+
+# Back-compat alias for older diagnostics that read the constructor map only.
+_CONSTRUCTORS = {sha: entry['constructor'] for sha, entry in _ENTRIES.items()}
 
 
 def _validate_main(expected_pid):
@@ -26,10 +37,10 @@ def _validate_main(expected_pid):
     if pid != expected_pid or not thread:
         raise ShopBootstrapError('微信主进程已变化，无法建立小店启动连接；请保持微信登录')
     path = loaded_module_path(pid, 'Weixin.dll')
-    constructor = _CONSTRUCTORS.get(_sha256(path)) if path else None
-    if constructor is None:
-        raise ShopBootstrapError('当前微信文件未适配内置小店启动；支持指定的 4.1.13.63 / 4.1.13.65，已停止调用')
-    return thread, constructor
+    entry = _ENTRIES.get(_sha256(path)) if path else None
+    if entry is None:
+        raise ShopBootstrapError('当前微信文件未适配内置小店启动；仅支持指定的 4.1.13.63 / 4.1.13.65，已停止调用')
+    return thread, entry['constructor'], entry['launch']
 
 
 _SCRIPT = r'''
@@ -37,7 +48,7 @@ _SCRIPT = r'''
 if (Process.arch !== 'x64') throw new Error('Expected x64');
 const base = Process.getModuleByName('Weixin.dll').base;
 const construct = new NativeFunction(base.add(CONSTRUCTOR_OFFSET),'pointer',['pointer']);
-const launch = new NativeFunction(base.add(0x220a80),'void',['pointer','pointer','pointer']);
+const launch = new NativeFunction(base.add(LAUNCH_OFFSET),'void',['pointer','pointer','pointer']);
 const held = [];
 let state = 'idle', cancelled = false;
 function text(value) {
@@ -63,8 +74,12 @@ rpc.exports = {
       construct(request);
       request.add(8).writePointer(text('wxca8d4b8e8feedc2a'));
       request.add(24).writePointer(text('subpackages/searchCenter/pages/globalSearch/globalSearch'));
+      // These presence bits are part of the native request contract.  The
+      // constructor already supplies scene=1000 and all other defaults; do
+      // not overwrite the scene field or the WMPF launch takes the visible
+      // page path without registering its debug session.
       request.add(0xe4).writeU32(1|4);
-      // Preserve native defaults, including scene=1000. Native launch copies
+      // Native launch copies
       // the request before returning; never destroy Frida-owned strings with
       // the C++ heap destructor. All buffers live until this script unloads.
       launch(ptr(0), request, ptr(0));
@@ -79,8 +94,8 @@ rpc.exports = {
 
 
 class _NativeLaunch:
-    def __init__(self, pid, constructor):
-        self.pid, self.constructor = pid, constructor
+    def __init__(self, pid, constructor, launch):
+        self.pid, self.constructor, self.launch = pid, constructor, launch
         self.session = self.script = None
 
     def __enter__(self):
@@ -88,7 +103,8 @@ class _NativeLaunch:
         try:
             self.session = frida.get_local_device().attach(self.pid)
             self.script = self.session.create_script(
-                _SCRIPT.replace('CONSTRUCTOR_OFFSET', str(self.constructor)))
+                _SCRIPT.replace('CONSTRUCTOR_OFFSET', str(self.constructor))
+                       .replace('LAUNCH_OFFSET', str(self.launch)))
             self.script.load()
             return self
         except Exception:
@@ -150,7 +166,7 @@ class BuiltinShopOpener:
     def __call__(self, *, weixin_pid, get_host_pid, cancel_event, log,
                  force_relaunch=False):
         _check_cancel(cancel_event)
-        thread, constructor = _validate_main(weixin_pid)
+        thread, constructor, launch = _validate_main(weixin_pid)
         with _shop_ui(weixin_pid=weixin_pid, get_host_pid=get_host_pid,
                       cancel_event=cancel_event, log=log) as ui:
             # A visible shop host is already the user's verified launch
@@ -189,9 +205,9 @@ class BuiltinShopOpener:
             _check_cancel(cancel_event)
             # The binary/main-thread check is repeated after closing: no stale
             # process identity or native address may cross the shutdown step.
-            thread, constructor = _validate_main(weixin_pid)
+            thread, constructor, launch = _validate_main(weixin_pid)
             log('自动恢复：通过内置入口独立打开小店关键词搜索页，无需文件传输助手')
-            with _NativeLaunch(weixin_pid, constructor) as native:
+            with _NativeLaunch(weixin_pid, constructor, launch) as native:
                 _check_cancel(cancel_event)
                 native.begin(thread)
                 deadline = time.monotonic() + 35

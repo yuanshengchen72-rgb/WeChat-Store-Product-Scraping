@@ -136,6 +136,15 @@ class DesktopWechatProfile:
     scene_offsets: tuple[int, ...]
     source: str
     validation_note: str = ""
+    # Only the 4.1.13.63 / 25558 base pair has been validated end-to-end on a
+    # real machine. Every other pair is a static-interface match. When a
+    # non-verified kernel's WMPF host dies right after our hooks load, the
+    # crash circuit-breaker stops auto-restart so we never crash-loop WeChat.
+    runtime_verified: bool = False
+    # WMPF's internal config lookup used to be the only reliable way to
+    # enable XWeb remote debugging.  It is an interior address in flue.dll,
+    # so it is opt-in per exact binary profile and never inferred by version.
+    wmpf_config_lookup_offset: int = 0
 
 
 SUPPORTED_PROFILE = DesktopWechatProfile(
@@ -150,6 +159,7 @@ SUPPORTED_PROFILE = DesktopWechatProfile(
     wmpf_cdp_filter_offset=60265824,
     scene_offsets=(64, 1536, 8, 1472, 16, 456),
     source="微信 4.1.13.63 / WMPF 25558",
+    runtime_verified=True,
 )
 
 # Official 4.1.13.65 installer (SHA256 A1978685...B57C5E1), statically
@@ -172,42 +182,20 @@ _WMPF_25560 = dict(
     wmpf_cdp_filter_offset=0,
     scene_offsets=(64, 1536, 8, 1472, 16, 456),
 )
-_WEIXIN_4159 = dict(
-    # WeChat 4.1.15.9 installed on this machine. The IPC dispatcher was
-    # matched against the 4.1.13.65 function shape and its stable call-site
-    # string references; do not infer this from the product version alone.
-    weixin_sha256="1b599c66ada05ab12f9850cffe9d44314abb0440fde3d74623ada1c71dc94508",
-    weixin_size=201517608,
-    weixin_ipc_task_offset=0x54167c0,
-)
-_WMPF_25710 = dict(
-    # WMPF 2.5.7.25710. The reply function is the unique normalized match
-    # from the verified 25560 HostCdpReplyBinding::Reply implementation.
-    flue_sha256="3211ee33fd42f96edf8390e641af671a47b77d03cc09c4723dafdbae5cf75665",
-    flue_size=237164080,
-    # 25710's load-start and filter functions changed shape. Keeping these
-    # hooks disabled avoids attaching to an unverified address; the CDP
-    # bridge and verified reply hook remain available for an existing page.
-    wmpf_load_start_offset=0,
-    wmpf_cdp_filter_offset=0,
-    scene_offsets=(),
-)
 _STATIC_COMPAT_NOTE = "此内核组合已完成静态接口核对，尚待该版本真实采集验证；建议先测试自动恢复"
 # WeChat and WMPF update independently. Each explicitly allowed pair retains
 # its own exact file hashes and the offsets for its actual two components.
+# Every derived profile is a static-interface match only: mark it not
+# runtime-verified so the crash circuit-breaker (see _on_native_detached) can
+# halt auto-restart if the kernel dies right after our hooks load.
 SUPPORTED_PROFILES = (
     SUPPORTED_PROFILE,
     replace(SUPPORTED_PROFILE, **_WEIXIN_65, source="微信 4.1.13.65 / WMPF 25558",
-            validation_note=_STATIC_COMPAT_NOTE),
+            validation_note=_STATIC_COMPAT_NOTE, runtime_verified=False),
     replace(SUPPORTED_PROFILE, **_WMPF_25560, source="微信 4.1.13.63 / WMPF 25560",
-            validation_note=_STATIC_COMPAT_NOTE),
+            validation_note=_STATIC_COMPAT_NOTE, runtime_verified=False),
     replace(SUPPORTED_PROFILE, **_WEIXIN_65, **_WMPF_25560, source="微信 4.1.13.65 / WMPF 25560",
-            validation_note=_STATIC_COMPAT_NOTE),
-    replace(SUPPORTED_PROFILE, **_WEIXIN_4159, **_WMPF_25710,
-            wmpf_on_command_offset=0,
-            wmpf_reply_offset=0x26ba220,
-            source="微信 4.1.15.9 / WMPF 25710",
-            validation_note="已匹配本机微信 4.1.15.9 / WMPF 25710；仅启用已核对的 IPC 与回包入口，未验证的页面钩子已关闭"),
+            validation_note=_STATIC_COMPAT_NOTE, runtime_verified=False),
 )
 
 
@@ -232,8 +220,8 @@ def validate_desktop_profile(
                   if profile.weixin_size == weixin_stat.st_size and profile.flue_size == flue_stat.st_size]
     if not candidates:
         raise DesktopWechatError(
-            "当前电脑版微信内核组合暂未适配。现支持微信 4.1.13.63 / 4.1.13.65 / 4.1.15.9，"
-            "小程序 WMPF 25558 / 25560 / 25710 的指定文件；请不要强行运行，以免微信崩溃。"
+            "当前电脑版微信内核组合暂未适配。现支持微信 4.1.13.63 / 4.1.13.65，"
+            "小程序 WMPF 25558 / 25560 的指定文件；请不要强行运行，以免微信崩溃。"
             f"文件大小：Weixin.dll={weixin_stat.st_size}，flue.dll={flue_stat.st_size}"
         )
     cache_key = (
@@ -249,7 +237,8 @@ def validate_desktop_profile(
         return cached
     weixin_hash, flue_hash = _sha256(weixin).lower(), _sha256(flue).lower()
     for profile in candidates:
-        if (weixin_hash == profile.weixin_sha256 and flue_hash == profile.flue_sha256):
+        if (weixin_hash == profile.weixin_sha256
+                and (profile.flue_sha256 == "*" or flue_hash == profile.flue_sha256)):
             _PROFILE_CACHE.clear()
             _PROFILE_CACHE[cache_key] = profile
             return profile
@@ -510,6 +499,8 @@ const module = Process.findModuleByName('flue.dll');
 if (!module) throw new Error('flue.dll not loaded');
 const loadStartOffset={profile.wmpf_load_start_offset};
 const cdpFilterOffset={profile.wmpf_cdp_filter_offset};
+const configLookupOffset={profile.wmpf_config_lookup_offset};
+const mainFrameArg=1;
 const sceneOffsets={scene_offsets};
 const knownScenes=[1000,1005,1007,1008,1027,1035,1053,1074,1145,1178,1256,1260,1302,1308];
 let scenePatched=false;
@@ -519,18 +510,30 @@ function isBadPtr(value) {{
   return invalid.some(item=>{{try{{return value.equals(ptr(item));}}catch(e){{return false;}}}});
 }}
 function patchScene(a1) {{
-  if(scenePatched||sceneOffsets.length!==6||isBadPtr(a1)) return;
+  if(scenePatched||isBadPtr(a1)) return;
   try {{
     const readAt=(value,offset)=>{{const next=value.add(offset).readPointer();if(isBadPtr(next))throw new Error('invalid scene pointer');return next;}};
-    const config=readAt(readAt(a1,sceneOffsets[0]),sceneOffsets[1]);
-    const scene=readAt(readAt(readAt(config,sceneOffsets[2]),sceneOffsets[3]),sceneOffsets[4]).add(sceneOffsets[5]);
+    let scene;
+    if(sceneOffsets.length===3) {{
+      const config=readAt(readAt(a1,sceneOffsets[0]),sceneOffsets[1]);
+      scene=config.add(sceneOffsets[2]);
+    }} else if(sceneOffsets.length===6) {{
+      const config=readAt(readAt(a1,sceneOffsets[0]),sceneOffsets[1]);
+      scene=readAt(readAt(readAt(config,sceneOffsets[2]),sceneOffsets[3]),sceneOffsets[4]).add(sceneOffsets[5]);
+    }} else return;
     const current=scene.readInt();
     if(!knownScenes.includes(current)) return;
     scene.writeInt(1101); scenePatched=scene.readInt()===1101;
   }} catch(e) {{}}
 }}
 if(loadStartOffset) Interceptor.attach(module.base.add(loadStartOffset), {{onEnter(args){{
-  try{{if(args[1].and(0xff).toInt32()!==1)args[1]=args[1].and(ptr('0xffffffffffffff00')).or(1);patchScene(args[0]);}}catch(e){{}}
+  try{{
+    const frame=args[mainFrameArg];
+    if(frame.and(0xff).toInt32()!==1)
+      args[mainFrameArg]=frame.and(ptr('0xffffffffffffff00')).or(1);
+    patchScene(args[0]);
+    send({{event:'load_start',frame:Number(args[mainFrameArg].and(0xff))}});
+  }}catch(e){{}}
 }}}});
 if(cdpFilterOffset) Interceptor.attach(module.base.add(cdpFilterOffset), {{
   onEnter(args){{this.inputValue=args[0];}},
@@ -539,6 +542,33 @@ if(cdpFilterOffset) Interceptor.attach(module.base.add(cdpFilterOffset), {{
 function readString(value) {{
   try{{const marker=value.add(0x17).readS8();const size=marker<0?Number(value.add(8).readU64()):marker;if(size<0||size>67108864)return '';const data=marker<0?value.readPointer():value;return data.readUtf8String(size)||'';}}catch(e){{return '';}}
 }}
+const forcedConfig = new Set([
+  'enable_open_debug_xweb',
+  'global_enable_ui_devtools',
+  'disable_web_res_sig_verify',
+  'disable_h5_auth'
+]);
+function readConfigKey(value) {{
+  try {{
+    if (!value || value.isNull()) return '';
+    const marker=value.add(23).readS8();
+    const size=marker<0?Number(value.add(8).readU64()):marker;
+    if (size<0 || size>256) return '';
+    const data=marker<0?value.readPointer():value;
+    return data.readUtf8String(size)||'';
+  }} catch(e) {{ return ''; }}
+}}
+if(configLookupOffset) Interceptor.attach(module.base.add(configLookupOffset), {{
+  onEnter(args) {{
+    // This is the same std::string key lookup used by WMPF 25560.  Do not
+    // touch arguments or memory; only remember a matching key and override
+    // the returned boolean onLeave, which keeps the hook ABI side-effect free.
+    this.configKey=readConfigKey(this.context.rdx);
+    this.forceConfig=forcedConfig.has(this.configKey);
+    if(this.configKey) send({{event:this.forceConfig?'config_force':'config_seen',key:this.configKey}});
+  }},
+  onLeave(retval) {{ if(this.forceConfig) retval.replace(1); }}
+}});
 Interceptor.attach(module.base.add({profile.wmpf_reply_offset}), {{onEnter(args){{
   const rows=[];try{{const begin=args[2].readPointer();const end=args[2].add(Process.pointerSize).readPointer();for(let item=begin;item.compare(end)<0&&rows.length<128;item=item.add(0x18))rows.push(readString(item));}}catch(e){{}}
   send({{event:'reply',error_code:args[1].toInt32(),session_id:readString(args[0].add(8)),command_id:readString(args[0].add(0x20)),call_id:readString(args[0].add(0x38)),error:readString(args[3]),responses:rows}});
@@ -954,13 +984,13 @@ class DesktopWechatBackend:
                 return  # Intentional release or a late callback from an older host.
             if (role == '小程序' and 'process-terminated' in str(reason).casefold()
                     and self.profile is not None
-                    and 'WMPF 25560' in self.profile.source
+                    and not self.profile.runtime_verified
                     and self._hooks_attached_at
                     and time.monotonic() - self._hooks_attached_at <= 30.0):
                 self._native_fatal_error = DesktopHookCompatibilityError(
-                    "WMPF 25560 小程序宿主在采集钩子装载后立即退出；"
-                    "当前内核偏移尚未完成实机验证，已停止自动重启，避免反复崩溃。"
-                    "请改用已验证的 25558 内核，或更新到包含 25560 实机偏移的版本。"
+                    f"{self.profile.source} 小程序宿主在采集钩子装载后立即退出；"
+                    "当前内核偏移尚未完成实机验证，已停止自动重启，避免反复崩溃微信。"
+                    "请改用已验证的 4.1.13.63 / 25558 内核，或更新到包含该版本实机偏移的软件。"
                 )
             self._mark_native_lost(f"{role}进程 {self.wmpf_pid if role == '小程序' else self.weixin_pid}，{reason}")
 
@@ -977,6 +1007,18 @@ class DesktopWechatBackend:
             self.log("电脑版微信 Frida 错误：" + str(message.get("description") or ""))
             return
         payload = message.get("payload")
+        if isinstance(payload, dict) and payload.get("event") == "ready":
+            self.log(f"WMPF 调试钩子已加载：PID {payload.get('pid')}")
+            return
+        if isinstance(payload, dict) and payload.get("event") == "config_force":
+            self.log(f"WMPF 调试配置已强制开启：{payload.get('key')}")
+            return
+        if isinstance(payload, dict) and payload.get("event") == "config_seen":
+            self.log(f"WMPF 配置查询已命中：{payload.get('key')}")
+            return
+        if isinstance(payload, dict) and payload.get("event") == "load_start":
+            self.log(f"WMPF OnLoadStart 已命中，is_main_frame={payload.get('frame')}")
+            return
         if not isinstance(payload, dict) or payload.get("event") != "reply":
             return
         call_id = str(payload.get("call_id") or "")
@@ -1032,11 +1074,61 @@ class DesktopWechatBackend:
                 or self.cdp_bridge.runtime_ready):
             return
         self.log("小程序页面已先打开；采集钩子已就绪，关闭并重新打开正常入口以注册调试会话")
+        previous_wmpf_pid = self.wmpf_pid
         self._normal_bootstrap_in_progress = True
         try:
             self._bootstrap_normal_shop_compat(force_relaunch=True)
         finally:
             self._normal_bootstrap_in_progress = False
+        # The normal opener closes the old WMPF host on recovery.  The new
+        # page therefore belongs to a new PID; keeping the old Frida session
+        # makes the UI look open while the CDP session can never register.
+        new_wmpf_pid = _wmpf_root_pid(self.weixin_pid)
+        if (new_wmpf_pid and new_wmpf_pid != previous_wmpf_pid
+                and self.device is not None):
+            self.log(f"小程序宿主已重建：{previous_wmpf_pid} -> {new_wmpf_pid}，重新附着采集钩子")
+            old_script, old_session = self.wmpf_script, self.wmpf_session
+            self.wmpf_script = None
+            self.wmpf_session = None
+            try:
+                if old_script is not None:
+                    old_script.unload()
+            except Exception:
+                pass
+            try:
+                if old_session is not None:
+                    old_session.detach()
+            except Exception:
+                pass
+            self.cdp_bridge.prepare_relaunch()
+            session = script = None
+            try:
+                session = self.device.attach(new_wmpf_pid)
+                session.on('detached', lambda reason, crash=None, current=session:
+                           self._on_native_detached(current, '小程序', reason, crash))
+                script = session.create_script(_build_wmpf_script(self.profile))
+                script.on("message", self._on_wmpf_message)
+                script.load()
+            except Exception as exc:
+                try:
+                    if script is not None:
+                        script.unload()
+                except Exception:
+                    pass
+                try:
+                    if session is not None:
+                        session.detach()
+                except Exception:
+                    pass
+                self.wmpf_pid = 0
+                self._hooks_attached_at = 0.0
+                raise DesktopWechatError(
+                    f"小程序宿主已重建，但采集钩子重新附着失败：{exc}"
+                ) from exc
+            self.wmpf_session = session
+            self.wmpf_script = script
+            self.wmpf_pid = new_wmpf_pid
+            self._hooks_attached_at = time.monotonic()
         if not self.cdp_bridge.wait_runtime(15.0, cancel_event=self.cancel_event):
             raise DesktopWechatError(
                 "正常入口已重新触发，但小程序调试会话仍未注册；当前关键词保留"

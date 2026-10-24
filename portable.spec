@@ -27,13 +27,27 @@ mobile_datas = [
     ("wechat_shop_scraper/assets/platform-tools/AdbWinApi.dll", "wechat_shop_scraper/assets/platform-tools"),
     ("wechat_shop_scraper/assets/platform-tools/AdbWinUsbApi.dll", "wechat_shop_scraper/assets/platform-tools"),
 ]
+python_root = Path(sys.base_prefix)
+tk_tcl = python_root / "tcl" / "tcl8.6"
+tk_tk = python_root / "tcl" / "tk8.6"
+if not tk_tcl.is_dir() or not tk_tk.is_dir():
+    raise SystemExit(f"Python Tcl/Tk runtime not found under {python_root / 'tcl'}")
+tk_datas = [(str(tk_tcl), "_tcl_data"), (str(tk_tk), "_tk_data")]
+if (python_root / "_tcl_data").is_dir():
+    tk_datas.append((str(python_root / "_tcl_data"), "_tcl_data"))
+if (python_root / "_tk_data").is_dir():
+    tk_datas.append((str(python_root / "_tk_data"), "_tk_data"))
+tk_package = python_root / "Lib" / "tkinter"
+if tk_package.is_dir():
+    tk_datas.append((str(tk_package), "tkinter"))
 
 a = Analysis(
     ["main.py"],
-    pathex=[bootstrap_vendor],
+    pathex=[bootstrap_vendor, str(python_root / "Lib")],
     binaries=frida_binaries + ui_binaries + com_binaries,
-    datas=frida_datas + mobile_datas + ui_datas + com_datas,
-    hiddenimports=frida_hiddenimports + ui_hiddenimports + com_hiddenimports,
+    datas=frida_datas + mobile_datas + ui_datas + com_datas + tk_datas,
+    hiddenimports=(frida_hiddenimports + ui_hiddenimports + com_hiddenimports +
+                   ["tkinter", "tkinter.ttk", "tkinter.filedialog", "tkinter.messagebox", "_tkinter"]),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
